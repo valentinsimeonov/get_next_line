@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 21:11:58 by vsimeono          #+#    #+#             */
-/*   Updated: 2021/11/13 14:06:16 by vsimeono         ###   ########.fr       */
+/*   Created: 2021/11/13 14:09:11 by vsimeono          #+#    #+#             */
+/*   Updated: 2021/11/13 18:39:51 by vsimeono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -22,25 +22,6 @@ size_t	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	int		i;
-	char	*d;
-	char	*s;
-
-	i = 0;
-	d = (char *)dst;
-	s = (char *)src;
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	while (i < (int)n)
-	{
-		*(d + i) = *(s + i);
-		i++;
-	}
-	return (dst);
 }
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
@@ -74,22 +55,30 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		lens1;
-	int		lens2;
-	char	*str;
+	size_t	i;
+	size_t	j;
+	char	*ptr;
 
-	if (!s1 || !s2)
+	i = 0;
+	j = 0;
+	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) + 1 * sizeof(char));
+	if (!ptr)
 		return (NULL);
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
-	str = (char *)malloc((lens1 + lens2 + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_memcpy(str, s1, lens1);
-	ft_memcpy(str + lens1, s2, lens2);
-	*(str + lens1 + lens2) = '\0';
-	free((void *)s1);
-	return (str);
+	ptr[0] = '\0';
+	while (i < ft_strlen(s1))
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	free((void *)(s1));
+	while (j < ft_strlen(s2))
+	{
+		ptr[i] = s2[j];
+		j++;
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -115,4 +104,18 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	*(p + i) = '\0';
 	return (p);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	p = (char *)s;
+	while (i < (int)n)
+	{
+		*(p + i) = '\0';
+		i++;
+	}
 }

@@ -1,43 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 16:48:46 by vsimeono          #+#    #+#             */
-/*   Updated: 2021/11/13 14:04:11 by vsimeono         ###   ########.fr       */
+/*   Created: 2021/11/13 14:07:24 by vsimeono          #+#    #+#             */
+/*   Updated: 2021/11/13 18:38:54 by vsimeono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char buf[BUFFER_SIZE + 1];
-	int			read_count;
 	char		*line;
 
+	if (fd < 0 || fd > MAX_FD || BUFFER_SIZE <= 0)
+		return (NULL);
 	line = (char *)ft_calloc(1, sizeof(char));
-	while (!ft_strchr(buf, '\n'))
+	line = because_of_norminette(fd, line);
+	if (line == NULL)
+		return (NULL);
+	return (line);
+}
+
+char	*because_of_norminette(int fd, char *line)
+{
+	static char buf[MAX_FD][BUFFER_SIZE + 1];
+	int			read_count;
+
+	while (!ft_strchr(buf[fd], '\n'))
 	{
-		if (*buf)
-			line = ft_strjoin(line, buf);
-		read_count = read(fd, buf, BUFFER_SIZE);
+		if (*buf[fd])
+			line = ft_strjoin(line, buf[fd]);
+		read_count = read(fd, buf[fd], BUFFER_SIZE);
 		if (read_count <= 0 && !(*line))
 		{
 			free(line);
 			return (NULL);
 		}
-		buf[read_count] = '\0';
-		if (!ft_strchr(buf, '\n') && read_count < BUFFER_SIZE)
+		buf[fd][read_count] = '\0';
+		if (!ft_strchr(buf[fd], '\n') && read_count < BUFFER_SIZE)
 		{
-			line = ft_strjoin(line, buf);
-			ft_bzero(buf, 1);
+			line = ft_strjoin(line, buf[fd]);
+			ft_bzero(buf[fd], 1);
 			return (line);
 		}
 	}
-	line = move_in_line(line, buf);
+	line = move_in_line(line, buf[fd]);
 	return (line);
 }
 
@@ -79,20 +90,6 @@ char	*ft_strchr(const char *s, int c)
 	if (c == 0)
 		return (str + len + 1);
 	return (NULL);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	int		i;
-	char	*p;
-
-	i = 0;
-	p = (char *)s;
-	while (i < (int)n)
-	{
-		*(p + i) = '\0';
-		i++;
-	}
 }
 
 void	*ft_calloc(size_t count, size_t size)
