@@ -6,7 +6,7 @@
 /*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 14:07:24 by vsimeono          #+#    #+#             */
-/*   Updated: 2021/11/13 18:38:54 by vsimeono         ###   ########.fr       */
+/*   Updated: 2021/11/13 21:30:26 by vsimeono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_next_line(int fd)
 
 char	*because_of_norminette(int fd, char *line)
 {
-	static char buf[MAX_FD][BUFFER_SIZE + 1];
+	static char	buf[MAX_FD][BUFFER_SIZE + 1];
 	int			read_count;
 
 	while (!ft_strchr(buf[fd], '\n'))

@@ -6,7 +6,7 @@
 /*   By: vsimeono <vsimeono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 16:48:46 by vsimeono          #+#    #+#             */
-/*   Updated: 2021/11/13 14:04:11 by vsimeono         ###   ########.fr       */
+/*   Updated: 2021/11/13 21:57:00 by vsimeono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE + 1];
 	int			read_count;
 	char		*line;
 
